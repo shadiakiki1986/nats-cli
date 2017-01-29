@@ -20,3 +20,6 @@ export GOPATH=${PWD}
 go get github.com/nats-io/go-nats
 go get gopkg.in/urfave/cli.v2
 ```
+
+## TODO
+binary wont run .. check https://github.com/tianon/gosu/blob/master/Dockerfile
