@@ -44,4 +44,4 @@ docker run -it -v ${PWD}/bin/nats-amd64:/sbin/nats:ro alpine:latest nats
 ```
 
 ## TODO
-* add `subscribe`
+* integrate tests when this project matures, like [ampq](https://github.com/streadway/amqp/blob/master/spec/gen.go)
