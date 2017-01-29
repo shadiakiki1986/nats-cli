@@ -9,17 +9,18 @@ Download the binary from one of the [releases](https://github.com/shadiakiki1986
 (in example below, `amd64` is the output of `dpkg --print-architecture`)
 and run
 
-```
-wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.1/nats-amd64
+```bash
+wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.1/nats-amd64 -O /sbin/nats
+chmod +x /sbin/nats
 
 # publish to channel "foo" the message "help me!"
-bin/nats-amd64 pub foo "help me!"
+bin/nats pub foo "help me!"
 
 # same on different server
-bin/nats-amd64 --server nats://someserver:4222 pub foo "help me!"
+bin/nats --server nats://someserver:4222 pub foo "help me!"
 
 # subscribe to channel "foo"
-bin/nats-amd64 sub foo
+bin/nats sub foo
 ```
 
 ## Development
