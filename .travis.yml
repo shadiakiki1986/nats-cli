@@ -1,0 +1,9 @@
+language: go
+install:
+- go get github.com/nats-io/go-nats gopkg.in/urfave/cli.v2
+before_script: 
+- export GOARCH=`dpkg --print-architecture`
+- export CGO_ENABLED=0
+- go build -v -ldflags '-d -s -w' -o bin/nats-${GOARCH}
+script:
+- bin/nats-${GOARCH}

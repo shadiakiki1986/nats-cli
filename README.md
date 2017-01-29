@@ -1,19 +1,23 @@
-# nats-cli
+# nats-cli [![Build Status](https://travis-ci.org/shadiakiki1986/nats-cli.svg?branch=master)](https://travis-ci.org/shadiakiki1986/nats-cli)
 NATS client CLI
 
 Equivalent to the ruby-nats example scripts
 
 ## Usage
 
-Download one of the releases
-
-Run
+Download the binary from one of the [releases](https://github.com/shadiakiki1986/nats-cli/releases)
+(in example below, `amd64` is the output of `dpkg --print-architecture`)
+and run
 
 ```
-nats-cli pub foo "help me!"
+wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.1/nats-amd64
+
+# publish to channel "foo" the message "help me!"
+nats-amd64 pub foo "help me!"
 ```
 
 ## Development
+Pre-requisites
 ```bash
 sudo apt-get install golang
 export GOPATH=${PWD}
@@ -21,11 +25,17 @@ go get github.com/nats-io/go-nats
 go get gopkg.in/urfave/cli.v2
 ```
 
+Build binary (copied from [gosu](https://github.com/tianon/gosu/blob/master/Dockerfile))
+
+```bash
+CGO_ENABLED=0 GOARCH=amd64 go build -v -ldflags '-d -s -w' -o bin/nats-amd64
+```
+
+Test binary (copied from [su-exec](https://github.com/ncopa/su-exec))
+
+```
+docker run -it -v ${PWD}/bin/nats-amd64:/sbin/nats:ro alpine:latest nats
+```
+
 ## TODO
-binary wont run .. check https://github.com/tianon/gosu/blob/master/Dockerfile
-
-To test (copied from [su-exec](https://github.com/ncopa/su-exec))
-
-```
-docker run -it -v ${PWD}/nats-cli:/sbin/nats-cli:ro alpine:latest nats-cli
-```
+* add `subscribe`
