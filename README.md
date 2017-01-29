@@ -13,7 +13,13 @@ and run
 wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.1/nats-amd64
 
 # publish to channel "foo" the message "help me!"
-nats-amd64 pub foo "help me!"
+bin/nats-amd64 pub foo "help me!"
+
+# same on different server
+bin/nats-amd64 --server nats://someserver:4222 pub foo "help me!"
+
+# subscribe to channel "foo"
+bin/nats-amd64 sub foo
 ```
 
 ## Development

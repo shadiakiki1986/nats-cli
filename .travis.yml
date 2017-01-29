@@ -1,9 +1,20 @@
 language: go
+services:
+- docker
+before_install:
+- docker run -d --name my-nats -p 4222:4222 nats
 install:
 - go get github.com/nats-io/go-nats gopkg.in/urfave/cli.v2
 before_script: 
 - export GOARCH=`dpkg --print-architecture`
 - export CGO_ENABLED=0
-- go build -v -ldflags '-d -s -w' -o bin/nats-${GOARCH}
+- go build -v -ldflags '-d -s -w' -o bin/nats
 script:
-- bin/nats-${GOARCH}
+- bin/nats
+- bin/nats sub foo > sub.log &
+- export pid=$!
+- bin/nats pub foo "help me!"
+- grep "help me" sub.log
+- kill $pid
+after_script:
+- docker stop my-nats

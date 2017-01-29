@@ -10,18 +10,18 @@ import (
 
 func main() {
   app := &cli.App{
+    Flags: []cli.Flag {
+      &cli.StringFlag{
+        Name:        "server",
+        Value:       nats.DefaultURL, // "nats://localhost:4222",
+        Usage:       "NATS server URI",
+      },
+    },
     Commands: []*cli.Command{
       {
         Name:    "pub",
         Usage:   "Publish to NATS channel",
         ArgsUsage: "channel message",
-        Flags: []cli.Flag {
-          &cli.StringFlag{
-            Name:        "server",
-            Value:       nats.DefaultURL, // "nats://localhost:4222",
-            Usage:       "NATS server URI",
-          },
-        },
         Action:  func(c *cli.Context) error {
           nc, _ := nats.Connect(c.String("server"))
           fmt.Println("Connected to server: ", c.String("server"))
@@ -32,7 +32,7 @@ func main() {
           }
           message := "help me!"
           if c.NArg() > 1 {
-            channel = c.Args().Get(1)
+            message = c.Args().Get(1)
           }
 
           // Make a request
@@ -43,7 +43,29 @@ func main() {
           return nil
         },
       },
+      {
+        Name:    "sub",
+        Usage:   "Subscribe to NATS channel",
+        ArgsUsage: "channel",
+        Action:  func(c *cli.Context) error {
+          nc, _ := nats.Connect(c.String("server"))
+          fmt.Println("Connected to server: ", c.String("server"))
+
+          channel := "foo"
+          if c.NArg() > 0 {
+            channel = c.Args().First() // Get(0)
+          }
+
+          // Simple Async Subscriber
+          nc.Subscribe(channel, func(m *nats.Msg) {
+              fmt.Printf("Received a message: %s\n", string(m.Data))
+          })
+          fmt.Printf("Listening for messages on: %s\n", channel)
+          select {} // Block forever
+        },
+      },
     },
+
   }
 
   app.Run(os.Args)
