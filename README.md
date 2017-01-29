@@ -23,3 +23,9 @@ go get gopkg.in/urfave/cli.v2
 
 ## TODO
 binary wont run .. check https://github.com/tianon/gosu/blob/master/Dockerfile
+
+To test (copied from [su-exec](https://github.com/ncopa/su-exec))
+
+```
+docker run -it -v ${PWD}/nats-cli:/sbin/nats-cli:ro alpine:latest nats-cli
+```
