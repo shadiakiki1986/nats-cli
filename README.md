@@ -39,7 +39,7 @@ bin/nats sub foo
 4. Subscribe to channel "foo" and trigger a command upon receipt of the generated token
 
 ```bash
-shadi@ffa24:~/Development/nats-cli$ go run nats.go sub --cmd 'echo "hey"' foo
+$ go run nats.go sub --cmd 'echo "hey"' foo
 2017/02/03 10:33:19 Start
 2017/02/03 10:33:19 Connected to server:  nats://localhost:4222
 2017/02/03 10:33:19 Listening for messages on: foo
@@ -56,11 +56,22 @@ hey
 In the example above, the token is sent using
 
 ```bash
-shadi@ffa24:~/Development/nats-cli$ go run nats.go pub foo 022d59bdf309dc22
+$ go run nats.go pub foo 022d59bdf309dc22
 2017/02/03 10:33:25 Start
 2017/02/03 10:33:25 Connected to server:  nats://localhost:4222
 2017/02/03 10:33:25 Pushed to channel:  foo
 2017/02/03 10:33:25 Message:  022d59bdf309dc22
+```
+
+5. Subscribe to channel "foo" and trigger a command upon receipt of your own token
+
+```bash
+$ go run nats.go sub --cmd 'echo "hey"' --token 12345 foo
+```
+
+Token sent using
+```bash
+$ go run nats.go pub foo 12345
 ```
 
 ## Releasing

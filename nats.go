@@ -73,6 +73,11 @@ func main() {
             Value:       "",
             Usage:       "Command to run upon receipt of displayed token on channel",
           },
+          &cli.StringFlag{
+            Name:        "token",
+            Value:       "",
+            Usage:       "Token to listen for in order to run the command",
+          },
         },
         Action:  func(c *cli.Context) error {
           nc, _ := nats.Connect(c.String("server"))
@@ -83,10 +88,16 @@ func main() {
             channel = c.Args().First() // Get(0)
           }
 
-          // generate a random token if cmd is passed
+          // check if cmd is passed
           // http://stackoverflow.com/a/25431798/4126114
           if c.String("cmd")!="" {
-            token = randToken()
+            // check if token is provided
+            if c.String("token")=="" {
+              // generate a random token
+              token = randToken()
+            } else {
+              token = c.String("token")
+            }
           }
 
           // Simple Async Subscriber
@@ -121,6 +132,6 @@ func main() {
   }
 
   app.Name = "nats"
-  app.Version = "0.0.4"
+  app.Version = "0.0.4.1"
   app.Run(os.Args)
 }
