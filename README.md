@@ -10,7 +10,7 @@ Download the binary from one of the [releases](https://github.com/shadiakiki1986
 and run
 
 ```bash
-wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.1/nats-amd64 -O /sbin/nats
+wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.3/nats-amd64 -O /sbin/nats
 chmod +x /sbin/nats
 
 # publish to channel "foo" the message "help me!"
