@@ -9,6 +9,7 @@ import (
     "gopkg.in/urfave/cli.v2" // imports as package "cli"
     "crypto/rand"
     "log"
+    "bytes"
 )
 
 // http://stackoverflow.com/a/25431798/4126114
@@ -105,15 +106,24 @@ func main() {
               log.Printf("Received a message: %s\n", string(m.Data))
               if c.String("cmd")!="" {
                 if string(m.Data) == token {
-                  // How to execute system command in Golang with unknown arguments
-                  // http://stackoverflow.com/a/20438245/4126114
+                  // 1. How to execute system command in Golang with unknown arguments
+                  //    http://stackoverflow.com/a/20438245/4126114
+                  // 2. Example from golang page
+                  //    https://golang.org/pkg/os/exec/#example_Command
+                  // 3. Proper error management
+                  //    http://stackoverflow.com/a/18159705/4126114
                   log.Printf("Message matches with token .. triggering command: '%s'\n", c.String("cmd"));
-                  out, err := exec.Command("sh","-c",c.String("cmd")).Output()
+                  cmd := exec.Command("sh","-c",c.String("cmd"))
+                  var out bytes.Buffer
+                  var stderr bytes.Buffer
+                  cmd.Stdout = &out
+                  cmd.Stderr = &stderr
+                  err := cmd.Run()
                   if err != nil {
-                      log.Println("error occured")
-                      log.Printf("%s", err)
+                      log.Printf(fmt.Sprint(err) + ": " + stderr.String())
+                      return
                   }
-                  log.Printf(">>>\n%s\n<<<", out)
+                  log.Printf(">>>\n%s\n<<<", out.String())
                 }
               }
 
@@ -132,6 +142,6 @@ func main() {
   }
 
   app.Name = "nats"
-  app.Version = "0.0.4.1"
+  app.Version = "0.0.4.2"
   app.Run(os.Args)
 }
