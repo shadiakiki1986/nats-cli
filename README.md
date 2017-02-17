@@ -3,16 +3,13 @@ NATS client CLI
 
 Equivalent to the [ruby-nats](https://github.com/nats-io/ruby-nats) example scripts
 
-## Usage
-
-
 ## Installation
 
 Download the binary from one of the [releases](https://github.com/shadiakiki1986/nats-cli/releases)
 (in example below, `amd64` is the output of `dpkg --print-architecture`)
 
 ```bash
-wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.3/nats-amd64 -O /sbin/nats
+wget https://github.com/shadiakiki1986/nats-cli/releases/download/0.0.4.2/nats-amd64 -O /sbin/nats
 chmod +x /sbin/nats
 ```
 Now you can run it with:
@@ -23,23 +20,27 @@ nats ...
 ## Usage
 1. Publish to channel "foo" the message "help me!"
 ```bash
-bin/nats pub foo "help me!"
+nats pub foo "help me!"
 ```
 
 2. Do the same on a different server
 ```bash
-bin/nats --server nats://someserver:4222 pub foo "help me!"
+nats --server nats://someserver:4222 pub foo "help me!"
 ```
 
 3. Subscribe to channel "foo" and just display the messages received in the console
 ```bash
-bin/nats sub foo
+nats sub foo
 ```
 
 4. Subscribe to channel "foo" and trigger a command upon receipt of the generated token
 
 ```bash
-$ go run nats.go sub --cmd 'echo "hey"' foo
+nats sub --cmd 'echo "hey"' foo
+```
+
+Output
+```
 2017/02/03 10:33:19 Start
 2017/02/03 10:33:19 Connected to server:  nats://localhost:4222
 2017/02/03 10:33:19 Listening for messages on: foo
@@ -56,7 +57,11 @@ hey
 In the example above, the token is sent using
 
 ```bash
-$ go run nats.go pub foo 022d59bdf309dc22
+nats pub foo 022d59bdf309dc22
+```
+
+Output
+```
 2017/02/03 10:33:25 Start
 2017/02/03 10:33:25 Connected to server:  nats://localhost:4222
 2017/02/03 10:33:25 Pushed to channel:  foo
@@ -66,13 +71,19 @@ $ go run nats.go pub foo 022d59bdf309dc22
 5. Subscribe to channel "foo" and trigger a command upon receipt of your own token
 
 ```bash
-$ go run nats.go sub --cmd 'echo "hey"' --token 12345 foo
+nats sub --cmd 'echo "hey"' --token 12345 foo
 ```
 
 Token sent using
 ```bash
-$ go run nats.go pub foo 12345
+nats pub foo 12345
 ```
+
+6. For usage within docker-compose, check [example-nats-cli-docker-compose](https://github.com/shadiakiki1986/example-nats-cli-docker-compose)
+
+## Dev notes
+To run using local go clone of repo, replace `nats` in all above examples wtih `go run nats.go`
+and run `go get` installation steps below to instapp the dependencies
 
 ## Releasing
 1. Pre-requisites
