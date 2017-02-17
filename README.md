@@ -81,6 +81,9 @@ nats pub foo 12345
 
 6. For usage within docker-compose, check [example-nats-cli-docker-compose](https://github.com/shadiakiki1986/example-nats-cli-docker-compose)
 
+## Note on output
+`nats-cli` outputs to stderr instead of stdout, so to capture the output, please use `nats ... 2> file.log`
+
 ## Dev notes
 To run using local go clone of repo, replace `nats` in all above examples wtih `go run nats.go`
 and run `go get` installation steps below to instapp the dependencies

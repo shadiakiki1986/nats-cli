@@ -11,7 +11,7 @@ before_script:
 - go build -v -ldflags '-d -s -w' -o bin/nats
 script:
 - bin/nats
-- bin/nats sub foo > sub.log &
+- bin/nats sub foo 2> sub.log &
 - export pid=$!
 - bin/nats pub foo "help me!"
 - grep "help me" sub.log
