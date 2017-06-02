@@ -141,7 +141,8 @@ func main() {
 
   }
 
-  app.Name = "nats"
+  app.Name = "nats  ..  http://github.com/shadiakiki1986/nats-cli"
+  app.Usage = "Publish or subscribe to nats channels"
   app.Version = "0.0.4.2"
   app.Run(os.Args)
 }
