@@ -1,7 +1,10 @@
 # nats-cli [![Build Status](https://travis-ci.org/shadiakiki1986/nats-cli.svg?branch=master)](https://travis-ci.org/shadiakiki1986/nats-cli)
 NATS client CLI
 
-Equivalent to the [ruby-nats](https://github.com/nats-io/ruby-nats) example scripts
+Similar projects:
+
+- [ruby-nats](https://github.com/nats-io/ruby-nats) example scripts
+- [shogsbro/natscat](https://github.com/shogsbro/natscat)
 
 ## Installation
 
