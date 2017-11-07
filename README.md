@@ -33,7 +33,8 @@ Now you can run it with: `nats ...`
     nats sub foo
     ```
 
-4. Subscribe to channel "foo" and trigger a command upon receipt of the generated token
+4. Subscribe to channel "foo" and trigger a command upon receipt of the automatically generated token (check token in command output line `Message should match with token: ...`)
+
     ```bash
     nats sub --cmd 'echo "hey"' foo
     ```
